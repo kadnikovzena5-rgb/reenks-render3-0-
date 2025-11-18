@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REENKS 3.0 - Living Glass Social Network</title>
+    <meta name="description" content="REENKS 3.0 - современная социальная сеть с дизайном Living Glass, мессенджером и играми">
+    
+    <!-- Living Glass CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Навбар -->
+        <nav class="glass-navbar">
+            <div class="nav-brand">REENKS 3.0</div>
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="news">📰 Новости</div>
+                <div class="nav-tab" data-tab="messenger">💬 Мессенджер</div>
+                <div class="nav-tab" data-tab="games">🎮 Игры</div>
+                <div class="nav-tab" data-tab="profile">👤 Профиль</div>
+            </div>
+            <div class="nav-actions">
+                <div class="notification-bell">🔔</div>
+                <div class="user-avatar" id="navAvatar">👤</div>
+            </div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Вкладка Новости -->
+            <div class="tab-content active" id="news-tab">
+                <div class="glass-card">
+                    <h2>📰 Лента новостей</h2>
+                    <div class="create-post-section">
+                        <div class="post-input-container">
+                            <img src="https://ui-avatars.com/api/?name=User+Default&background=667eea&color=fff" 
+                                 alt="Ваш аватар" class="user-avatar-small" id="currentUserAvatar">
+                            <textarea class="post-input" id="postInput" placeholder="Что у вас нового? 🚀" maxlength="500"></textarea>
+                        </div>
+                        <div class="post-actions">
+                            <div class="action-buttons">
+                                <button class="action-btn" data-action="photo">📷 Фото</button>
+                                <button class="action-btn" data-action="video">🎥 Видео</button>
+                                <button class="action-btn" data-action="emoji">😊 Эмоции</button>
+                                <button class="action-btn" data-action="location">📍 Место</button>
+                            </div>
+                            <button class="glass-btn" id="publishPost">Опубликовать</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="posts-feed" id="postsFeed">
+                    <!-- Посты будут загружаться здесь -->
+                    <div class="glass-card empty-state">
+                        <div class="empty-icon">📝</div>
+                        <h3>Лента пуста</h3>
+                        <p>Будьте первым, кто опубликует пост!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка Мессенджер -->
+            <div class="tab-content" id="messenger-tab">
+                <div class="chat-container">
+                    <!-- Список чатов -->
+                    <div class="chat-list glass-card">
+                        <div class="chat-header">
+                            <h3>💬 Чаты</h3>
+                            <button class="new-chat-btn" id="newChatBtn">+ Новый чат</button>
+                        </div>
+                        <div class="chats-list" id="chatsList">
+                            <!-- Список чатов будет здесь -->
+                            <div class="empty-chats">
+                                <div class="empty-icon">💬</div>
+                                <p>Чатов пока нет</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Окно чата -->
+                    <div class="chat-window glass-card">
+                        <div class="chat-header">
+                            <div class="chat-partner" id="chatPartner">
+                                <span>Выберите чат</span>
+                            </div>
+                        </div>
+                        <div class="messages-container" id="messagesContainer">
+                            <div class="welcome-message">
+                                <div class="welcome-icon">💬</div>
+                                <h3>Добро пожаловать в мессенджер!</h3>
+                                <p>Выберите чат слева чтобы начать общение</p>
+                            </div>
+                        </div>
+                        <div class="message-input" style="display: none;" id="messageInputContainer">
+                            <input type="text" id="messageInput" placeholder="Введите сообщение...">
+                            <button class="glass-btn send-btn" id="sendMessageBtn">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка Игры -->
+            <div class="tab-content" id="games-tab">
+                <div class="games-container">
+                    <div class="glass-card">
+                        <h2>🎮 Космический защитник</h2>
+                        <p>Защищайте Землю от астероидов! Управляйте кораблем стрелками, стреляйте пробелом.</p>
+                        
+                        <div class="game-stats">
+                            <div class="stat">
+                                <span>Очки:</span>
+                                <span id="gameScore">0</span>
+                            </div>
+                            <div class="stat">
+                                <span>Рекорд:</span>
+                                <span id="highScore">0</span>
+                            </div>
+                            <div class="stat">
+                                <span>Жизни:</span>
+                                <span id="gameLives">3</span>
+                            </span>
+                        </div>
+
+                        <div class="game-controls">
+                            <button class="glass-btn" id="startGameBtn">🎮 Начать игру</button>
+                            <button class="glass-btn secondary" id="pauseGameBtn" disabled>⏸️ Пауза</button>
+                            <button class="glass-btn secondary" id="resetGameBtn">🔄 Заново</button>
+                        </div>
+
+                        <div class="game-container">
+                            <canvas id="spaceGame" width="800" height="500"></canvas>
+                        </div>
+
+                        <div class="game-instructions">
+                            <h4>🎯 Управление:</h4>
+                            <div class="controls-list">
+                                <div class="control-item">← → - Движение</div>
+                                <div class="control-item">Пробел - Выстрел</div>
+                                <div class="control-item">P - Пауза</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard glass-card">
+                        <h3>🏆 Таблица лидеров</h3>
+                        <div class="scores-list" id="scoresList">
+                            <!-- Рекорды будут здесь -->
+                            <div class="empty-scores">
+                                <p>Пока нет рекордов</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка Профиль -->
+            <div class="tab-content" id="profile-tab">
+                <div class="profile-container">
+                    <!-- Форма входа -->
+                    <div class="auth-section" id="authSection">
+                        <div class="glass-card auth-form" id="loginForm">
+                            <h3>🔐 Вход в REENKS</h3>
+                            <form id="loginFormElement">
+                                <input type="email" class="form-input" placeholder="Email" required id="loginEmail">
+                                <input type="password" class="form-input" placeholder="Пароль" required id="loginPassword">
+                                <button type="submit" class="glass-btn">Войти</button>
+                            </form>
+                            <p class="auth-switch">
+                                Нет аккаунта? 
+                                <a href="#" id="showRegister">Зарегистрироваться</a>
+                            </p>
+                        </div>
+
+                        <div class="glass-card auth-form" id="registerForm" style="display: none;">
+                            <h3>🚀 Регистрация</h3>
+                            <form id="registerFormElement">
+                                <input type="text" class="form-input" placeholder="Имя" required id="regFirstName">
+                                <input type="text" class="form-input" placeholder="Фамилия" required id="regLastName">
+                                <input type="text" class="form-input" placeholder="Имя пользователя" required id="regUsername">
+                                <input type="email" class="form-input" placeholder="Email" required id="regEmail">
+                                <input type="password" class="form-input" placeholder="Пароль" required id="regPassword">
+                                <textarea class="form-input" placeholder="О себе (необязательно)" id="regBio"></textarea>
+                                <button type="submit" class="glass-btn">Создать аккаунт</button>
+                            </form>
+                            <p class="auth-switch">
+                                Есть аккаунт? 
+                                <a href="#" id="showLogin">Войти</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Профиль пользователя -->
+                    <div class="profile-section" id="profileSection" style="display: none;">
+                        <div class="glass-card user-profile">
+                            <div class="profile-header">
+                                <img src="https://ui-avatars.com/api/?name=User+Default&background=667eea&color=fff" 
+                                     alt="Аватар" class="profile-avatar" id="profileAvatar">
+                                <div class="profile-info">
+                                    <h2 id="profileName">Имя пользователя</h2>
+                                    <p class="profile-username" id="profileUsername">@username</p>
+                                    <p class="profile-bio" id="profileBio">О себе...</p>
+                                </div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <span>Посты:</span>
+                                    <span id="profilePosts">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span>Друзья:</span>
+                                    <span id="profileFriends">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span>Рейтинг:</span>
+                                    <span id="profileRating">⭐ 0</span>
+                                </div>
+                            </div>
+                            <button class="glass-btn secondary" id="logoutBtn">🚪 Выйти</button>
+                        </div>
+
+                        <div class="glass-card user-activity">
+                            <h3>📊 Ваша активность</h3>
+                            <div class="activity-list" id="activityList">
+                                <!-- Активность будет здесь -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Уведомления -->
+        <div class="notification-toast" id="notificationToast">
+            <div class="toast-content">
+                <span class="toast-icon">🔔</span>
+                <span class="toast-message" id="toastMessage">Уведомление</span>
+            </div>
+        </div>
+
+        <!-- Модальные окна -->
+        <div class="modal-overlay" id="modalOverlay" style="display: none;">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Модальное окно</h3>
+                    <button class="modal-close" id="modalClose">×</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Контент модального окна -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/messenger.js"></script>
+    <script src="/js/game.js"></script>
+    <script src="/js/app.js"></script>
+
+    <script>
+        // Инициализация PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        }
+    </script>
+</body>
+</html>
